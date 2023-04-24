@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+        <tr>
+            <td align="center" valign="top">
+                <table border="0" cellpadding="0" cellspacing="0" width="600"
+                        style="background-color:#ffffff;border:1px solid #dedede;border-radius:3px">
+                    <tbody>
+                        <tr>
+                            <td align="center" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                       style="background-color:#96588a;
+                                       color:#ffffff;border-bottom:0;
+                                       font-weight:bold;line-height:100%;
+                                       vertical-align:middle;
+                                       font-family:Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+                                       border-radius:3px 3px 0 0">
+                                    <tbody>
+                                        <tr>
+                                           <td style="padding:36px 48px;display:block">
+                                               <h1 style="font-family:Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+                                                    font-size:30px;font-weight:300;
+                                                    line-height:150%;
+                                                    margin:0;text-align:left;color:#ffffff;
+                                                    background-color:inherit">
+                                                   Danke für deine Bestellung
+                                               </h1>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="top">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="600" >
+                                                    <tbody>
+                                                    <tr>
+                                                        <td valign="top" style="background-color:#ffffff">
+                                                            <table border="0" cellpadding="20" cellspacing="0" width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td valign="top" style="padding:48px 48px 32px">
+                                                                            <div id="m_-6839301421494772360body_content_inner"
+                                                                                 style="color:#636363;font-family:Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+                                                                                 font-size:14px;line-height:150%;text-align:left">
+                                                                                <p style="margin:0 0 16px">Hallo {{ order.address_last_name}},</p>
+                                                                                <p style="margin:0 0 16px">
+                                                                                    vielen Dank für deinen Auftrag! Wir haben deine Bestellung #{{ order.id }} erhalten und werden sie umgehend bearbeiten.
+                                                                                </p>
+                                                                                <h2 style="color:#96588a;display:block;
+                                                                                          font-family:Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+                                                                                          font-size:18px;
+                                                                                          font-weight:bold;line-height:130%;
+                                                                                          margin:0 0 18px;text-align:left">
+                                                                                    (Bestellnummer #{{ order.id }}) ({{ order.date_created }})
+                                                                                </h2>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
