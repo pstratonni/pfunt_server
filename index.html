@@ -1,21 +1,200 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pelmeni Hamburg</title>
-</head>
-<body>
+    <link rel="stylesheet" href="/scss/style.css" />
+    <link rel="icon" href="./image/cropped-logo-1-192x192.jpg" />
+  </head>
+  <body>
     <header class="header">
-        <div class="container">
-
+      <div class="navbar">
+        <div class="nav">
+          <div><a href="" class="link">HOME</a></div>
+          <div><a href="" class="link">SHOP</a></div>
+          <div><a href="" class="link">BLOG</a></div>
+          <div><a href="" class="link">FAQ'S</a></div>
+          <div><a href="" class="link">KONTAKT</a></div>
         </div>
-        <div class="header__personal">
-            <div class="header__profile">
-                
+        <div class="cart-profile">
+          <div class="profile">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 10.8C13.9704 10.8 18 12.6804 18 15V18H0V15C0 12.6804 4.0296 10.8 9 10.8ZM16.8 15C16.8 13.344 13.308 12 9 12C4.692 12 1.2 13.344 1.2 15V16.8H16.8V15ZM9 0C10.1139 0 11.1822 0.442499 11.9698 1.23015C12.7575 2.0178 13.2 3.08609 13.2 4.2C13.2 5.31391 12.7575 6.3822 11.9698 7.16985C11.1822 7.9575 10.1139 8.4 9 8.4C7.88609 8.4 6.8178 7.9575 6.03015 7.16985C5.2425 6.3822 4.8 5.31391 4.8 4.2C4.8 3.08609 5.2425 2.0178 6.03015 1.23015C6.8178 0.442499 7.88609 0 9 0ZM9 1.2C8.20435 1.2 7.44129 1.51607 6.87868 2.07868C6.31607 2.64129 6 3.40435 6 4.2C6 4.99565 6.31607 5.75871 6.87868 6.32132C7.44129 6.88393 8.20435 7.2 9 7.2C9.79565 7.2 10.5587 6.88393 11.1213 6.32132C11.6839 5.75871 12 4.99565 12 4.2C12 3.40435 11.6839 2.64129 11.1213 2.07868C10.5587 1.51607 9.79565 1.2 9 1.2Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+          <div class="cart">
+            <div class="cart-svg">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.7896 15.7895C16.348 15.7895 16.8835 16.0113 17.2783 16.4061C17.6731 16.8009 17.8949 17.3364 17.8949 17.8947C17.8949 18.4531 17.6731 18.9886 17.2783 19.3834C16.8835 19.7782 16.348 20 15.7896 20C15.2313 20 14.6958 19.7782 14.301 19.3834C13.9062 18.9886 13.6843 18.4531 13.6843 17.8947C13.6843 17.3364 13.9062 16.8009 14.301 16.4061C14.6958 16.0113 15.2313 15.7895 15.7896 15.7895ZM15.7896 16.8421C15.5105 16.8421 15.2427 16.953 15.0453 17.1504C14.8479 17.3478 14.737 17.6156 14.737 17.8947C14.737 18.1739 14.8479 18.4417 15.0453 18.6391C15.2427 18.8365 15.5105 18.9474 15.7896 18.9474C16.0688 18.9474 16.3366 18.8365 16.534 18.6391C16.7314 18.4417 16.8423 18.1739 16.8423 17.8947C16.8423 17.6156 16.7314 17.3478 16.534 17.1504C16.3366 16.953 16.0688 16.8421 15.7896 16.8421ZM6.31585 15.7895C6.87421 15.7895 7.40969 16.0113 7.80451 16.4061C8.19933 16.8009 8.42114 17.3364 8.42114 17.8947C8.42114 18.4531 8.19933 18.9886 7.80451 19.3834C7.40969 19.7782 6.87421 20 6.31585 20C5.7575 20 5.22201 19.7782 4.82719 19.3834C4.43237 18.9886 4.21057 18.4531 4.21057 17.8947C4.21057 17.3364 4.43237 16.8009 4.82719 16.4061C5.22201 16.0113 5.7575 15.7895 6.31585 15.7895ZM6.31585 16.8421C6.03667 16.8421 5.76893 16.953 5.57152 17.1504C5.37411 17.3478 5.26321 17.6156 5.26321 17.8947C5.26321 18.1739 5.37411 18.4417 5.57152 18.6391C5.76893 18.8365 6.03667 18.9474 6.31585 18.9474C6.59503 18.9474 6.86277 18.8365 7.06018 18.6391C7.25759 18.4417 7.36849 18.1739 7.36849 17.8947C7.36849 17.6156 7.25759 17.3478 7.06018 17.1504C6.86277 16.953 6.59503 16.8421 6.31585 16.8421ZM17.8949 3.15789H3.4453L6.12638 9.47368H14.737C14.9007 9.47393 15.0621 9.43578 15.2084 9.36229C15.3546 9.28879 15.4816 9.18201 15.5791 9.05053L18.737 4.84H18.7381C18.8548 4.68353 18.9258 4.49768 18.9429 4.30322C18.9601 4.10876 18.9229 3.91335 18.8354 3.73883C18.748 3.56431 18.6137 3.41756 18.4476 3.31497C18.2815 3.21237 18.0901 3.15799 17.8949 3.15789ZM14.737 10.5263H6.1748L5.36847 12.1684L5.26321 12.6316C5.26321 12.9108 5.37411 13.1785 5.57152 13.3759C5.76893 13.5733 6.03667 13.6842 6.31585 13.6842H17.8949V14.7368H6.31585C5.94929 14.737 5.58903 14.6415 5.27072 14.4597C4.95241 14.2779 4.68709 14.0161 4.501 13.7003C4.31491 13.3845 4.21451 13.0256 4.20972 12.659C4.20494 12.2925 4.29594 11.9311 4.47373 11.6105L5.23163 10.0589L1.40843 1.05263H0V0H2.10528L2.99898 2.10526H17.8949C18.2927 2.1053 18.6823 2.21802 19.0186 2.43037C19.355 2.64272 19.6243 2.94601 19.7954 3.30511C19.9664 3.66421 20.0323 4.06442 19.9852 4.45939C19.9382 4.85437 19.7803 5.22794 19.5297 5.53684L16.4623 9.62737C16.2683 9.90506 16.0102 10.1318 15.7098 10.2883C15.4094 10.4448 15.0757 10.5265 14.737 10.5263Z"
+                  fill="white"
+                />
+              </svg>
             </div>
+            <div class="cart-amout-products">0</div>
+          </div>
         </div>
+      </div>
     </header>
-</body>
+    <section class="ex1">
+      <div class="wrap_sec_1">
+        <div class="logo_pfunt"><img src="./image/logo-wite.png" alt="" /></div>
+        <h1 class="title">PELMENI HAMBURG</h1>
+        <div class="separator">
+          <img src="./image/separator-wite.png" alt="" />
+        </div>
+        <p class="subtitle">
+          Pelmeni, Wareniki, Manty, Khinkali und vieles mehr!
+        </p>
+        <a href="" class="shop-button">SHOP ANZEIGEN</a>
+      </div>
+      <div class="slide-nav">
+        <div class="slide slide1"></div>
+        <div class="slide slide2"></div>
+        <div class="slide slide3"></div>
+      </div>
+    </section>
+    <section class="ex2">
+      <div class="wrap_sec_2">
+        <div class="title_sec_2">ICH STELLE MICH VOR</div>
+        <div class="logo_sec_2">
+          <img src="./image/separator-grau.png" alt="" />
+        </div>
+        <div class="subtitle_sec_2">
+          Ich bin Anton, Pelmeni & CO. Creator aus Hamburg
+        </div>
+        <div class="subscr">
+          <div class="anton_photo"><img src="./image/anton2.jpg" alt="" /></div>
+          <div class="anton_greetings">
+            Ich freue mich riesig, alle Pelmeni-Liebhaber in meinem virtuellen
+            Zuhause zu begrüßen! Mein "Pfunt" Team und ich sind dafür da, um
+            euch mit köstlichen Osteuropäischen Spezialitäten satt und glücklich
+            zu machen. Des weiteren bieten wir auch einen Catering Service an.
+            Wir hoffen Ihr fühlt euch hier wohl und findet was Ihr sucht.
+            Stöbert bei uns durch und lasst es euch gut gehen!
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ex3">
+      <div class="wrap_sec_3">
+        <div class="card_client">
+          <div class="client_amount">1376</div>
+          <h2 class="title_client">ZUFRIEDENE KUNDEN</h2>
+          <p class="description">
+            Wir haben bereits über 1000 Kunden mit unseren leckeren Teigtaschen
+            glücklich gemacht.
+          </p>
+        </div>
+        <div class="card_client">
+          <div class="client_amount">13</div>
+          <h2 class="title_client">PRODUKTE</h2>
+          <p class="description">
+            Unser Sortiment besteht aus 13 Produkten. Auf Anfrage gehen wir auf
+            spezielle Wünsche ein.
+          </p>
+        </div>
+        <div class="card_client">
+          <div class="client_amount">2</div>
+          <h2 class="title_client">JAHRE</h2>
+          <p class="description">
+            Seit über zwei Jahren verwöhnen wir Hamburg mit unserer
+            hausgemachten Feinkost.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="ex4">
+      <div class="wrap_sec_2">
+        <div class="title_sec_2">PELMENI SHOP</div>
+        <div class="logo_sec_2">
+          <img src="./image/separator-grau.png" alt="" />
+        </div>
+        <div class="subtitle_sec_2">
+          Unser Teigtaschen Assortiment für EUCH!
+        </div>
+        <div class="menu_tab">
+          <div class="tab tab_active">HITS</div>
+          <div class="tab">SALE</div>
+        </div>
+        <div class="content">
+          <div class="card">
+            <div class="card_img">
+              <img src="./image/pelmeni_klassisch.jpg" alt="" />
+            </div>
+            <div class="card_content">
+              <div class="card_description">
+                <div class="card_title">Pelmeni Klassisch</div>
+                <div class="card_price">11,00 €</div>
+              </div>
+              <div class="button_cart">
+                <a href="" class="cart_ink">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card_img">
+              <img src="./image/sirniki_1.jpg" alt="" />
+            </div>
+            <div class="card_content">
+              <div class="card_description">
+                <div class="card_title">Srniki</div>
+                <div class="card_price price-crossed">11,50 €</div>
+                <div class="card_discount">9,50 €</div>
+              </div>
+              <div class="button_cart">
+                <a href="" class="cart_ink">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card_img">
+              <img src="./image/khinkali_1.jpg" alt="" />
+            </div>
+            <div class="card_content">
+              <div class="card_description">
+                <div class="card_title">Khinkali</div>
+                <div class="card_price">9,00 €</div>
+              </div>
+              <div class="button_cart">
+                <a href="" class="cart_ink">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card_img">
+              <img src="./image/pelmeni_huhnchen_1.jpg" alt="" />
+            </div>
+            <div class="card_content">
+              <div class="card_description">
+                <div class="card_title">Pelmeni hünnchen</div>
+                <div class="card_price">12,00 €</div>
+              </div>
+              <div class="button_cart">
+                <a href="" class="cart_ink">In den Warenkorb</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="link_shop"><a href="">ALLE WAREN ANZEIGEN</a></div>
+      </div>
+    </section>
+  </body>
 </html>
