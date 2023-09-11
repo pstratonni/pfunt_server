@@ -77,6 +77,14 @@ h1, h2, h3, h4, h5, h6 {
   src: url("../fonts/OpenSans-Regular.ttf");
 }
 @font-face {
+  font-family: "Open Sans Light";
+  src: url("../fonts/OpenSans_Condensed-Light.ttf");
+}
+@font-face {
+  font-family: "Open Sans Bold";
+  src: url("../fonts/OpenSans_SemiCondensed-Bold.ttf");
+}
+@font-face {
   font-family: "Kurale";
   src: url("../fonts/Kurale-Regular.ttf");
 }
@@ -307,7 +315,7 @@ body {
   border-radius: 50%;
 }
 .ex1 .slide-nav .slide1 {
-  animation: sl1 6s infinite alternate;
+  animation: sl1 12s infinite alternate;
 }
 @keyframes sl1 {
   0% {
@@ -321,7 +329,7 @@ body {
   }
 }
 .ex1 .slide-nav .slide2 {
-  animation: sl2 6s infinite alternate;
+  animation: sl2 12s infinite alternate;
 }
 @keyframes sl2 {
   0% {
@@ -335,7 +343,7 @@ body {
   }
 }
 .ex1 .slide-nav .slide3 {
-  animation: sl3 6s infinite alternate;
+  animation: sl3 12s infinite alternate;
 }
 @keyframes sl3 {
   0% {
@@ -436,28 +444,29 @@ body {
   text-align: center;
 }
 
-.ex4 {
-  margin-top: 120px;
-  padding-bottom: 140px;
-  color: #5f5f5f;
-}
-.ex4 .menu_tab {
+.menu_tab {
   display: flex;
   padding-bottom: 50px;
   justify-content: center;
   font-family: "Kurale", sans-serif;
+  font-size: 28px;
 }
-.ex4 .menu_tab .tab {
+.menu_tab .tab {
   margin: 0 20px;
   padding: 15px 20px;
   cursor: pointer;
-  font-size: 28px;
   font-weight: 400;
   opacity: 0.8;
 }
-.ex4 .menu_tab .tab_active {
+.menu_tab .tab_active {
   opacity: 1;
   border-bottom: #5f5f5f 2px solid;
+}
+
+.ex4 {
+  margin-top: 120px;
+  padding-bottom: 140px;
+  color: #5f5f5f;
 }
 .ex4 .content {
   display: flex;

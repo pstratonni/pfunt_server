@@ -1,0 +1,126 @@
+@import "product_list_style.scss";
+
+.product {
+  margin-bottom: 80px;
+  color: $darkcolor;
+}
+.product_content {
+  display: flex;
+  justify-content: space-between;
+  img {
+    width: 100%;
+  }
+  .thumbnail {
+    // width: 20%;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    img {
+      object-fit: contain;
+    }
+    .thum_img {
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .thum_active {
+      border: 2px solid red;
+    }
+  }
+  .main_img {
+    height: 600px;
+    margin-right: 60px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .product_data{
+    width: 70%;
+    // padding-right: 150px;
+  }
+  .product_title,
+  .product_price {
+    font-size: 38px;
+    margin-bottom: 10px;
+  }
+  .product_add {
+    display: flex;
+    margin-top: 20px;
+    padding: 10px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    background-color: #ededed;
+    margin-bottom: 40px;
+    
+    .to_cart {
+      padding: 0 20px;
+      background-color: $darkcolor;
+      color: $linkcolor;
+      margin: 10px 0;
+      border: 1px solid $darkcolor;
+      font-size: 12px;
+      text-transform: uppercase;
+      transition: color, background-color, 200ms ease;
+      &:hover {
+        color: $darkcolor;
+        background-color: $linkcolor;
+      }
+    }
+  }
+  .product_subtitle,
+  .product_weight {
+    font-family: "Open Sans Bold", sans-serif;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    // letter-spacing: 1px;
+  }
+  .product_composition {
+    padding-left: 40px;
+    li {
+      list-style-type: disc;
+      margin-bottom: 10px;
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+  p, h4 {
+    margin-bottom: 10px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+ .title_suggest{
+    margin-bottom: 60px;
+    font-size: 31px;
+    text-align: center;
+    line-height: 44px;
+ }
+ .count {
+    display: flex;
+    margin-right: 20px;
+    .product_qty_decrement,
+    .product_qty_increment {
+      width: 40px;
+      height: 40px;
+      margin-top: 20px;
+      font-family: "Open Sans Light", sans-serif;
+      font-weight: 300;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .product_quantity {
+      width: 40px;
+      height: 40px;
+      margin-top: 10px;
+      padding: 8px 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+    }
+  }

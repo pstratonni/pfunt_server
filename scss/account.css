@@ -652,4 +652,65 @@ body {
 }
 .ex6 .card_faq:hover .arrow {
   transform: rotate(180deg);
-}/*# sourceMappingURL=style.css.map */
+}
+
+.title_sec_2.account {
+  font-size: 28px;
+  margin-top: 50px;
+}
+
+.account-menu {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+}
+
+.form-block {
+  font-family: Arial, sans-serif;
+  max-width: 750px;
+  margin: 0 auto;
+  background-color: #f3f3f3;
+  padding: 20px 40px 40px;
+  margin-bottom: 80px;
+}
+.form-block .account-label {
+  margin-bottom: 5px;
+  display: block;
+}
+.form-block .account-input {
+  display: block;
+  width: 100%;
+  height: 38px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+.form-block .password-wrap {
+  position: relative;
+}
+.form-block .eye {
+  height: 30px;
+  display: inline-block;
+  position: absolute;
+  width: 30px;
+  top: 3px;
+  right: 5px;
+  cursor: pointer;
+}
+.form-block button {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px 30px;
+  border: 1px solid #5f5f5f;
+  background-color: #5f5f5f;
+  transition: all 200ms ease;
+  color: white;
+  font-size: 12px;
+}
+.form-block button:hover {
+  color: #5f5f5f;
+  background-color: white;
+}/*# sourceMappingURL=account.css.map */
