@@ -8,6 +8,7 @@ urlpatterns = [
     path('manufacturer/<int:pk>/', ManufacturerAPIRetriever.as_view(), ),
     path('products/', ProductAPIList.as_view(), ),
     path('product/<int:pk>/', ProductAPIRetriever.as_view(), ),
+    path('categories/', CategoryListView.as_view()),
     path('orders/', OrderAPIListCreate.as_view(), ),
     path('order_ip/', OrderIPAPICreate.as_view(), ),
     path('order/<int:pk>/', OrderAPIRetrieve.as_view(), ),

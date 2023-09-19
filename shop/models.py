@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db.models import Sum
 
 
 class Delivery(models.Model):
@@ -12,6 +11,7 @@ class Delivery(models.Model):
 
     def __str__(self):
         return f'price {self.price} cost {self.cost}'
+
 
 class Purchaser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -55,28 +55,33 @@ class Manufacturer(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=50)
-    description = models.TextField()
+    title = models.CharField(max_length=150)
+    subtitle = models.CharField(max_length=150, default='')
+    cooking = models.TextField(default='', blank=True)
+    description = models.TextField(default='', blank=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True)
+    weight = models.IntegerField(validators=[MinValueValidator(1)], default=500)
     price = models.DecimalField(validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)],
                                    default=0)
     image = models.ImageField(upload_to='product_img')
-    amount = models.IntegerField()
-    active = models.BooleanField(default=False)
+    amount = models.IntegerField(default=0)
+    active = models.BooleanField(default=True)
+    prepared = models.BooleanField(default=False)
     composition = models.ManyToManyField('Composition', related_name='product')
-    discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)],
-                                   default=0)
+    thumbnail = models.ManyToManyField('Thumbnail', related_name='product', blank=True)
+    category = models.ManyToManyField('Category', related_name='product')
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ['id']
 
 
 class Composition(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=150)
 
     def __str__(self):
         return self.title
@@ -87,13 +92,40 @@ class Composition(models.Model):
         ordering = ['title']
 
 
+class Thumbnail(models.Model):
+    title = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='thumbnails_img')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Bild"
+        verbose_name_plural = "Bilder"
+        ordering = ['title']
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+        ordering = ['title']
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='orders')
     ip = models.CharField(max_length=20, null=True)
     email = models.EmailField(default='')
+    products_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)],
+                                         max_digits=5, decimal_places=2)
     total_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)],
                                       max_digits=5, decimal_places=2)
-    total_amount = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    products_amount = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     delivery_cost = models.DecimalField(default=0, validators=[MinValueValidator(0.0)],
                                         max_digits=5, decimal_places=2)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -120,13 +152,15 @@ class Order(models.Model):
     address_street = models.CharField(max_length=50, default='')
     address_home_number = models.CharField(max_length=5, default='')
     address_last_name = models.CharField(max_length=20, default='')
+    phone_number = models.CharField(max_length=20, default='')
 
     def __str__(self):
         return f'{self.user}, {self.date_created.strftime("%d.%m.%Y %H:%M:%S")}'
 
     def update_order(self):
-        self.total_price = sum([order_item.price * order_item.quantity for order_item in self.order_items.all()])
-        self.total_amount = sum([order_item.quantity for order_item in self.order_items.all()])
+        self.products_price = sum([order_item.total_price for order_item in self.order_items.all()])
+        # self.products_amount = sum([order_item.quantity for order_item in self.order_items.all()])
+        self.products_amount = self.order_items.aggregate(Sum('quantity'))
         self.save()
 
     class Meta:
@@ -139,16 +173,17 @@ class OrderItem(models.Model):
     price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], null=True, default=0)
+    total_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
 
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='cart')
     total_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
     total_amount = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    ip = models.CharField(max_length=20, null=True)
+    ip = models.CharField(max_length=20, null=True, blank=True)
 
     def update_cart(self):
-        self.total_price = sum([cart_item.price * cart_item.quantity for cart_item in self.cart_items.all()])
+        self.total_price = sum([cart_item.total_price for cart_item in self.cart_items.all()])
         self.total_amount = sum([cart_item.quantity for cart_item in self.cart_items.all()])
         self.save()
 
@@ -165,9 +200,36 @@ class CartItem(models.Model):
     price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], null=True, default=0)
+    total_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)], max_digits=5, decimal_places=2)
 
     def __str__(self):
         return f'{self.cart.id}'
 
+    def update_cart_item(self):
+        self.total_price = self.quantity * self.price
+        self.save()
 
 
+class FAQ(models.Model):
+    question = models.CharField(max_length=50)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQ's"
+        ordering = ['id']
+
+
+class Tax(models.Model):
+    tax_cost = models.IntegerField(default=7, validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+    def __str__(self):
+        return f"{self.tax_cost}%"
+
+    class Meta:
+        verbose_name = "Steuer"
+        verbose_name_plural = "Steuern"
+        ordering = ['id']

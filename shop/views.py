@@ -1,15 +1,17 @@
+from django.db.models import Count, Q
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from rest_framework import generics
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
 
-from shop.models import Manufacturer, Product, Order, Cart, CartItem, OrderItem
 from shop.permissions import *
 from shop.serializers import *
-from shop.service import get_client_ip
+from shop.service import get_client_ip, ProductFilter
 
 
 class ManufacturerAPIList(generics.ListAPIView):
@@ -35,16 +37,19 @@ class ManufacturerIsAdminAPIRUD(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ProductAPIListPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 8
     page_size_query_param = 'page_size'
     max_page_size = 50
 
 
 class ProductAPIList(generics.ListAPIView):
-    queryset = Product.objects.filter(active=True)
+    queryset = Product.objects.filter(active=True).order_by('-date_created')
     serializer_class = ProductListSerializer
     pagination_class = ProductAPIListPagination
-
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = ProductFilter
+    search_fields = ('title', 'category__title')
+    ordering_fields = ('price',)
 
 class ProductAPIRetriever(generics.RetrieveAPIView):
     queryset = Product.objects.filter(active=True)
@@ -228,3 +233,8 @@ class CustomAuthToken(ObtainAuthToken):
             'token': token.key,
             'user_id': user.pk,
         })
+
+
+class CategoryListView(generics.ListAPIView):
+    serializer_class = CategoryListSerializer
+    queryset = Category.objects.annotate(counting=Count('product', filter=Q(product__active=True), distinct=True))

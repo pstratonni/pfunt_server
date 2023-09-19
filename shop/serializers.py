@@ -12,7 +12,7 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('title', 'price', 'id', 'image')
 
 
 # class CompositionSerializer(serializers.ModelSerializer):
@@ -24,6 +24,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     composition = serializers.SlugRelatedField(slug_field='title', read_only=True, many=True, )
+    thumbnail = serializers.SlugRelatedField(slug_field='image', read_only=True, many=True)
 
     class Meta:
         model = Product
@@ -70,11 +71,10 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         product = Product.objects.get(pk=validated_data.get('product', None).id)
-        cart_item, _ = CartItem.objects.filter(cart=validated_data.get('cart'))\
-                                       .update_or_create(product=product,
-                                                         defaults={**validated_data})
+        cart_item, _ = CartItem.objects.filter(cart=validated_data.get('cart')) \
+            .update_or_create(product=product, price=product.price,
+                              defaults={**validated_data})
         return cart_item
-
 
     class Meta:
         model = CartItem
@@ -103,4 +103,11 @@ class PurchaserRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Purchaser
+        fields = '__all__'
+
+
+class CategoryListSerializer(serializers.ModelSerializer):
+    counting = serializers.IntegerField()
+    class Meta:
+        model = Category
         fields = '__all__'

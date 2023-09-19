@@ -1,11 +1,12 @@
 from decouple import config
+from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
-from shop.models import Purchaser, Cart, CartItem, Order, OrderItem, Delivery
+from shop.models import Purchaser, Cart, CartItem, Order, OrderItem, Delivery, Tax
 
 
 @receiver(post_save, sender=User)
@@ -18,6 +19,8 @@ def create_cart(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CartItem)
 def update_cart(sender, instance, **kwargs):
     cart = Cart.objects.get(pk=instance.cart.id)
+    cart_item = CartItem.objects.get(pk=instance.id)
+    cart_item.update_cart_item()
     cart.update_cart()
 
 
@@ -29,22 +32,26 @@ def create_order_items(sender, instance, created, **kwargs):
         else:
             cart = Cart.objects.get(ip=instance.ip)
         try:
-
             cart_items = CartItem.objects.filter(cart=cart)
-
             for item in cart_items:
                 if item.product.active:
                     OrderItem.objects.create(order=instance, quantity=item.quantity, price=item.price,
-                                             product=item.product, discount=item.discount)
+                                             product=item.product, discount=item.discount, total_price=item.total_price)
 
             order = Order.objects.get(pk=instance.id)
+            delivery_cost = Delivery.objects.latest('id').price
+
+            if delivery_cost > order.products_price:
+                order.delivery_cost = delivery_cost
+                order.total_price = order.products_price + order.delivery_cost
+            else:
+                order.total_price = order.products_price
+
             order.update_order()
-
-            if Delivery.objects.latest('id').price > order.total_price:
-                order.delivery_cost = Delivery.objects.latest('id').cost
-                order.total_price += order.delivery_cost
-
+            order_items = OrderItem.objects.filter(order=order)
+            tax = Tax.objects.latest('id').annotate(sum=F('tax_cost')/100*order.total_price)
             cart.delete()
+
             if instance.user:
                 Cart.objects.create(user=instance.user)
             else:
@@ -53,7 +60,9 @@ def create_order_items(sender, instance, created, **kwargs):
             html_order = render_to_string(
                 'order.html',
                 {
-                    'order': order
+                    'order': order,
+                    'order_items': order_items,
+                    'tax': tax,
                 }
             )
 

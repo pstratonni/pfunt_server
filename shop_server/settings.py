@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +45,8 @@ INSTALLED_APPS = [
     'djoser',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'dark',
+    'django_filters',
 ]
 
 SITE_ID = 1
@@ -159,10 +162,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2,
-    'DATETIME_FORMAT': "%d.%m.%Y %H:%M:%S"
+    'PAGE_SIZE': 8,
+    'DATETIME_FORMAT': "%d.%m.%Y %H:%M:%S",
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
-
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
@@ -172,3 +175,5 @@ DJOSER = {
     'SERIALIZERS': {},
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
