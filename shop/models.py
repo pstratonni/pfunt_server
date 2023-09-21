@@ -69,6 +69,7 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
     prepared = models.BooleanField(default=False)
     composition = models.ManyToManyField('Composition', related_name='product')
+    vendor_code = models.CharField(max_length=15, default='9-')
     thumbnail = models.ManyToManyField('Thumbnail', related_name='product', blank=True)
     category = models.ManyToManyField('Category', related_name='product')
     date_created = models.DateTimeField(auto_now_add=True)

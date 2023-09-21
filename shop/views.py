@@ -51,6 +51,7 @@ class ProductAPIList(generics.ListAPIView):
     search_fields = ('title', 'category__title')
     ordering_fields = ('price',)
 
+
 class ProductAPIRetriever(generics.RetrieveAPIView):
     queryset = Product.objects.filter(active=True)
     serializer_class = ProductDetailSerializer
