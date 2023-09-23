@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 
 from shop.permissions import *
 from shop.serializers import *
-from shop.service import get_client_ip, ProductFilter
+from shop.service import get_client_ip, ProductFilter, send_email_with_attach
 
 
 class ManufacturerAPIList(generics.ListAPIView):

@@ -46,12 +46,11 @@
                                                             <td valign="top" style="padding:48px 48px 32px">
                                                                 <div style="color:#636363;font-family:Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
                                                                                  font-size:14px;line-height:150%;text-align:left">
-                                                                    <p style="margin:0 0 16px">Hallo {{
-                                                                        order.address_last_name}},</p>
+                                                                    <p style="margin:0 0 16px">Hallo {{ order.address_last_name}},</p>
                                                                     <p style="margin:0 0 16px">
                                                                         vielen Dank für deinen Auftrag! Wir
-                                                                        haben deine Bestellung #{{ order.id
-                                                                        }} erhalten und werden sie umgehend
+                                                                        haben deine Bestellung #{{ order.id }}
+                                                                        erhalten und werden sie umgehend
                                                                         bearbeiten.
                                                                     </p>
                                                                     <h2 style="color:#96588a;display:block;
@@ -59,8 +58,7 @@
                                                                                           font-size:18px;
                                                                                           font-weight:bold;line-height:130%;
                                                                                           margin:0 0 18px;text-align:left">
-                                                                        (Bestellnummer #{{ order.id }}) ({{
-                                                                        order.date_created }})
+                                                                        (Bestellnummer #{{ order.id }}) ({{ order.date_created }})
                                                                     </h2>
                                                                     <div style="margin-bottom:40px">
                                                                         <table cellspacing="0"
@@ -107,7 +105,7 @@
                                                                                     <span>{{ order.products_price}}&nbsp;<span>€</span></span>
                                                                                 </td>
                                                                             </tr>
-                                                                            {% if order.delivery_cost>0 %}
+                                                                            {% if order.delivery_cost %}
                                                                             <tr>
                                                                                 <th scope="row" colspan="2"
                                                                                     style="color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left">
@@ -117,8 +115,7 @@
                                                                                     <span>{{ order.delivery_cost }}&nbsp;<span>€</span></span>&nbsp;<small>via
                                                                                     Lieferung innerhalb
                                                                                     <span class="il">Hamburg</span>
-                                                                                    {{ order.delivery_cost
-                                                                                    }}€</small>
+                                                                                    {{ order.delivery_cost }}€</small>
                                                                                 </td>
                                                                             </tr>
                                                                             {% endif %}
@@ -160,28 +157,20 @@
 
                                                                                 <address
                                                                                         style="padding:12px;font-weight:normal;color:#636363;border:1px solid #e5e5e5">
-                                                                                    {{
-                                                                                    order.address_last_name
-                                                                                    }}<br>{{
-                                                                                    order.address_street }}
-                                                                                    {{
-                                                                                    order.address_home_number
-                                                                                    }}
-                                                                                    <br>{{ order.address_ZIP
-                                                                                    }} {{ order.address_city
-                                                                                    }} <br><a
+                                                                                    {{ order.address_last_name }}
+                                                                                    <br>{{ order.address_street }}
+                                                                                    {{ order.address_home_number }}
+                                                                                    <br>{{ order.address_ZIP }}
+                                                                                    {{ order.address_city }} <br><a
                                                                                         href="tel:{{
                                                                                     order.phone_number
                                                                                     }}"
                                                                                         style="color:#96588a;;text-decoration:underline"
-                                                                                        target="_blank">{{
-                                                                                    order.phone_number
-                                                                                    }}</a>
+                                                                                        target="_blank">{{ order.phone_number }}</a>
                                                                                     <br><a
                                                                                         href="mailto:{{
                                                                                     order.email }}"
-                                                                                        target="_blank">{{
-                                                                                    order.email }}</a>
+                                                                                        target="_blank">{{ order.email }}</a>
                                                                                 </address>
                                                                             </td>
                                                                         </tr>

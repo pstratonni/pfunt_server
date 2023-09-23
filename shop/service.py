@@ -3,8 +3,9 @@ import os
 
 import pdfkit
 from decouple import config
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 from django_filters import rest_framework as filters
 
 from shop.models import Product, Manufacturer
@@ -36,10 +37,10 @@ def get_img_file_as_base64():
     img_manufacturer = Manufacturer.objects.get(title='Pfunt').img_manufacturer
     url = os.path.join(BASE_DIR, 'media', str(img_manufacturer))
     with open(url, 'rb') as img_file:
-        return base64.b64encode(img_file.read())
+        return base64.b64encode(img_file.read()).decode()
 
 
-def send_email_with_attach(order, order_items, tax, ):
+def create_pdf(order, order_items, tax, ):
     img = get_img_file_as_base64()
     html_pdf = render_to_string(
         'order_to_pdf.html',
@@ -51,7 +52,14 @@ def send_email_with_attach(order, order_items, tax, ):
         })
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
     config1 = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    path_pdf = settings.MEDIA_ROOT + f'\invoices\Rechnung №{order.id}.pdf'
+    pdfkit.from_string(html_pdf, path_pdf, configuration=config1, options={"enable-local-file-access": ""})
+    order.invoice = f'invoices/Rechnung №{order.id}.pdf'
     pdf = pdfkit.from_string(html_pdf, False, configuration=config1, options={"enable-local-file-access": ""})
+    return pdf
+
+
+def send_email_with_attach(order, order_items, tax, ):
 
     html_order = render_to_string(
         'order.html',
@@ -69,5 +77,5 @@ def send_email_with_attach(order, order_items, tax, ):
         to=[config('EMAIL_USER'), order.email]
     )
     order_message.attach_alternative(html_order, 'text/html')
-    order_message.attach(f'Rechnung №{order.id}', pdf, 'application/pdf')
+    order_message.attach(f'Rechnung №{order.id}', create_pdf(order, order_items, tax, ), 'application/pdf')
     order_message.send()

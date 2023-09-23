@@ -120,7 +120,7 @@ class Category(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='orders')
-    ip = models.CharField(max_length=20, null=True)
+    ip = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(default='')
     products_price = models.DecimalField(default=0, validators=[MinValueValidator(0.0)],
                                          max_digits=5, decimal_places=2)
@@ -154,6 +154,7 @@ class Order(models.Model):
     address_home_number = models.CharField(max_length=5, default='')
     address_last_name = models.CharField(max_length=20, default='')
     phone_number = models.CharField(max_length=20, default='')
+    invoice = models.FileField(upload_to='invoices', )
 
     def __str__(self):
         return f'{self.user}, {self.date_created.strftime("%d.%m.%Y %H:%M:%S")}'
