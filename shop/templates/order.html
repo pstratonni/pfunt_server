@@ -135,7 +135,7 @@
                                                                                 </th>
                                                                                 <td style="color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left">
                                                                                     <span>{{ order.total_price }}&nbsp;<span>€</span></span>
-                                                                                    <small>(inkl. <span>{{ tax.sum }}&nbsp;<span>€</span></span>
+                                                                                    <small>(inkl. <span>{{ tax.tax_sum }}&nbsp;<span>€</span></span>
                                                                                         MwSt. {{ tax.tax_cost }}
                                                                                         %
                                                                                         DE)</small>
@@ -162,14 +162,11 @@
                                                                                     {{ order.address_home_number }}
                                                                                     <br>{{ order.address_ZIP }}
                                                                                     {{ order.address_city }} <br><a
-                                                                                        href="tel:{{
-                                                                                    order.phone_number
-                                                                                    }}"
+                                                                                        href="tel:{{ order.phone_number }}"
                                                                                         style="color:#96588a;;text-decoration:underline"
                                                                                         target="_blank">{{ order.phone_number }}</a>
                                                                                     <br><a
-                                                                                        href="mailto:{{
-                                                                                    order.email }}"
+                                                                                        href="mailto:{{ order.email }}"
                                                                                         target="_blank">{{ order.email }}</a>
                                                                                 </address>
                                                                             </td>

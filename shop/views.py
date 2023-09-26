@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 
 from shop.permissions import *
 from shop.serializers import *
-from shop.service import get_client_ip, ProductFilter, send_email_with_attach
+from shop.service import get_client_ip, ProductFilter
 
 
 class ManufacturerAPIList(generics.ListAPIView):
@@ -83,7 +83,14 @@ class OrderAPIListCreate(generics.ListCreateAPIView):
 
 
 class OrderIPAPICreate(generics.CreateAPIView):
-    serializer_class = OrderIPSerializer
+
+    def post(self, request):
+        serializer = OrderIPSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(ip=get_client_ip(request))
+            return Response(serializer.data, status=201)
+        else:
+            return Response(status=400)
 
 
 class OrderAPIRetrieve(generics.RetrieveAPIView):
@@ -116,39 +123,39 @@ class OrderItemAPIUpdate(generics.RetrieveUpdateDestroyAPIView):
 
 class CartAuthAPIRetrieveUpdateDestroy(APIView):
     permission_classes = (IsOwner,)
-    # serializer_class = CartSerializer
 
-    def post(self, request):
-        if Cart.objects.get(user=request.user):
-            return self.get(request)
-        else:
-            serializer = CartSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=201)
-            else:
-                return Response(status=400)
-
-    def get(self, request,):
+    def get(self, request, ):
         cart = Cart.objects.get(user=request.user)
         return Response(CartSerializer(cart).data)
+    # serializer_class = CartSerializer
 
-    def put(self, request):
-        try:
-            instance = Cart.objects.get(user=request.user)
-        except:
-            return Response({'error': "Object does not exist"})
-        serializer = CartSerializer(data=request.data, instance=instance)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=201)
+    # def post(self, request):
+    #     if Cart.objects.get(user=request.user):
+    #         return self.get(request)
+    #     else:
+    #         serializer = CartSerializer(data=request.data)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data, status=201)
+    #         else:
+    #             return Response(status=400)
 
-    def delete(self, request):
-        try:
-            Cart.objects.get(user=request.user).delete()
-        except:
-           return Response({'error': "Object does not exist"})
-        return Response({'delete': "Object has deleted successfully"}, status=204)
+    # def put(self, request):
+    #     try:
+    #         instance = Cart.objects.get(user=request.user)
+    #     except:
+    #         return Response({'error': "Object does not exist"})
+    #     serializer = CartSerializer(data=request.data, instance=instance)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=201)
+
+    # def delete(self, request):
+    #     try:
+    #         Cart.objects.get(user=request.user).delete()
+    #     except:
+    #        return Response({'error': "Object does not exist"})
+    #     return Response({'delete': "Object has deleted successfully"}, status=204)
 
 
 class CartIPAPI(APIView):
@@ -174,13 +181,13 @@ class CartIPAPI(APIView):
         else:
             return Response(status=400)
 
-    def delete(self, request):
-        ip = get_client_ip(request)
-        try:
-            Cart.objects.get(ip=ip).delete()
-        except:
-           return Response({'error': "Object does not exist"})
-        return Response({'delete': "Object has deleted successfully"})
+    # def delete(self, request):
+    #     ip = get_client_ip(request)
+    #     try:
+    #         Cart.objects.get(ip=ip).delete()
+    #     except:
+    #        return Response({'error': "Object does not exist"})
+    #     return Response({'delete': "Object has deleted successfully"})
 
     def put(self, request):
         ip = get_client_ip(request)

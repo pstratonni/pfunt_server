@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth.models import User
 from django.db.models import F
 from django.db.models.signals import post_save
@@ -15,10 +17,8 @@ def create_cart(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=CartItem)
-def update_cart(sender, instance, **kwargs):
+def update_cart_(sender, instance, **kwargs):
     cart = Cart.objects.get(pk=instance.cart.id)
-    cart_item = CartItem.objects.get(pk=instance.id)
-    cart_item.update_cart_item()
     cart.update_cart()
 
 
@@ -39,17 +39,16 @@ def create_order_items(sender, instance, created, **kwargs):
             order = Order.objects.get(pk=instance.id)
             delivery = Delivery.objects.latest('id')
 
-            if delivery.price > order.products_price:
-                order.delivery_cost = delivery.cost
-                order.total_price = order.products_price + order.delivery_cost
-            else:
-                order.total_price = order.products_price
+            order.update_order(delivery.price, delivery.cost)
 
-            order.update_order()
             order_items = OrderItem.objects.filter(order=order)
-            tax = Tax.objects.latest('id').annotate(sum=(F('tax_cost') / 100 * order.total_price) * 100 // 1 / 100)
+            tax_cost = Tax.objects.latest('id').tax_cost
+            tax_sum = float((Decimal(str(tax_cost / 100)) * order.total_price) * 100 // 1 / 100)
+            tax = {
+                'tax_cost': tax_cost,
+                'tax_sum': tax_sum,
+            }
             cart.delete()
-
             if instance.user:
                 Cart.objects.create(user=instance.user)
             else:
@@ -60,14 +59,19 @@ def create_order_items(sender, instance, created, **kwargs):
             pass
 
 
+recursion = False
+
+
 @receiver(post_save, sender=OrderItem)
 def update_order_items(sender, instance, created, **kwargs):
     if not created:
-        order = Order.objects.get(pk=instance.order.id)
-        order.update_order()
-        delivery = Delivery.objects.filter(date_created__lte=order.date_created).latest('id')
-        if delivery.price > order.total_price:
-            order.delivery_cost = delivery.cost
-            order.total_price += order.delivery_cost
+        global recursion
+        if recursion:
+            pass
         else:
-            order.delivery_cost = 0
+            recursion = True
+            OrderItem.objects.get(pk=instance.id).update_price()
+            order = Order.objects.get(pk=instance.order.id)
+            delivery = Delivery.objects.latest('id')
+            order.update_order(delivery.price, delivery.cost)
+            recursion = False

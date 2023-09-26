@@ -52,6 +52,14 @@ class OrderIPSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        product = Product.objects.get(pk=validated_data.get('product', None).id)
+        order_item, _ = OrderItem.objects.filter(cart=validated_data.get('order')) \
+            .update_or_create(
+            total_price=validated_data.get('quantity') * (product.price - validated_data.get('discount')),
+            defaults={**validated_data})
+        return order_item
+
     class Meta:
         model = OrderItem
         fields = '__all__'
@@ -73,6 +81,8 @@ class CartItemSerializer(serializers.ModelSerializer):
         product = Product.objects.get(pk=validated_data.get('product', None).id)
         cart_item, _ = CartItem.objects.filter(cart=validated_data.get('cart')) \
             .update_or_create(product=product, price=product.price,
+                              total_price=validated_data.get('quantity') * (product.price - product.discount),
+                              discount=product.discount,
                               defaults={**validated_data})
         return cart_item
 

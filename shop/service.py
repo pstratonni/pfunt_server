@@ -1,9 +1,11 @@
 import base64
 import os
+from pathlib import Path
 
 import pdfkit
 from decouple import config
 from django.conf import settings
+from django.core.files import File
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django_filters import rest_framework as filters
@@ -54,7 +56,11 @@ def create_pdf(order, order_items, tax, ):
     config1 = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     path_pdf = settings.MEDIA_ROOT + f'\invoices\Rechnung №{order.id}.pdf'
     pdfkit.from_string(html_pdf, path_pdf, configuration=config1, options={"enable-local-file-access": ""})
-    order.invoice = f'invoices/Rechnung №{order.id}.pdf'
+    path = Path(path_pdf)
+    with path.open(mode='rb') as f:
+        order.invoice = File(f, name=path.name)
+        order.save()
+    os.remove(path_pdf)
     pdf = pdfkit.from_string(html_pdf, False, configuration=config1, options={"enable-local-file-access": ""})
     return pdf
 
